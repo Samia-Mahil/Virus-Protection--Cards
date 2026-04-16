@@ -2,134 +2,177 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>حماية الحاسوب | مدرسة مدينة الشامخة</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>حماية الحاسوب من الفيروسات | مدرسة مدينة الشامخة</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --gold: #C9A84C;
+            --gold-light: #E8C97A;
             --navy: #0D1B2A;
+            --navy-mid: #152238;
             --white: #F8F6F0;
+            --radius: 20px;
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
             font-family: 'Cairo', sans-serif;
             background-color: var(--navy);
             color: var(--white);
-            margin: 0;
+            line-height: 1.6;
+            direction: rtl;
             overflow-x: hidden;
         }
 
-        /* شاشة الترحيب */
-        #hero {
+        /* شاشة البداية */
+        #hero-section {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;
             text-align: center;
-            background: radial-gradient(circle at center, #152238 0%, #0D1B2A 100%);
             padding: 20px;
+            background: radial-gradient(circle at center, #1E3050 0%, #0D1B2A 100%);
         }
 
-        /* شاشة اللعبة - مخفية في البداية */
-        #app-container {
-            display: none;
+        .school-name {
+            color: var(--gold);
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .main-title {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            color: var(--white);
+        }
+
+        .main-title span { color: var(--gold); }
+
+        .start-btn {
+            background: linear-gradient(135deg, var(--gold), #8B6914);
+            color: white;
+            padding: 18px 50px;
+            border-radius: 50px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            transition: 0.3s;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(201,168,76,0.3);
+        }
+
+        /* شاشة المحتوى */
+        #main-app {
+            display: none; /* مخفي في البداية */
             padding: 40px 20px;
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
-        .btn-start {
-            background: linear-gradient(135deg, var(--gold), #8B6914);
-            color: white;
-            padding: 20px 60px;
-            border-radius: 50px;
-            font-size: 1.5rem;
-            font-weight: 900;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: 0.3s;
-            margin-top: 20px;
-        }
-        .btn-start:hover { transform: scale(1.05); box-shadow: 0 15px 40px rgba(201,168,76,0.4); }
-
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
-        }
-
-        .card {
-            background: #152238;
-            border: 2px solid var(--gold);
-            border-radius: 20px;
-            padding: 40px 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: 0.5s;
-            min-height: 250px;
+        .header-area {
             display: flex;
-            flex-direction: column;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-        }
-        .card:hover { transform: translateY(-10px); background: #1E3050; }
-
-        .card-icon { font-size: 4rem; margin-bottom: 20px; }
-        .card-title { font-weight: 900; color: var(--gold); font-size: 1.4rem; }
-        .card-info { margin-top: 15px; font-size: 1.1rem; line-height: 1.6; display: none; }
-
-        .card.flipped .card-info { display: block; }
-        .card.flipped .card-icon, .card.flipped .card-title { display: none; }
-
-        footer {
-            margin-top: 50px;
-            padding: 20px;
-            text-align: center;
-            border-top: 1px solid rgba(201,168,76,0.2);
-            font-size: 0.9rem;
-            color: var(--gold);
+            margin-bottom: 30px;
         }
 
-        .progress-bar {
+        .progress-container {
             width: 100%;
-            height: 12px;
+            height: 10px;
             background: rgba(255,255,255,0.1);
             border-radius: 10px;
-            margin: 20px 0;
+            margin-bottom: 40px;
             overflow: hidden;
         }
+
         #progress-fill {
             height: 100%;
             background: var(--gold);
             width: 0%;
-            transition: 0.5s;
+            transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: var(--navy-mid);
+            border: 1px solid rgba(201,168,76,0.3);
+            border-radius: var(--radius);
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.4s;
+            position: relative;
+            min-height: 220px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .card:hover {
+            border-color: var(--gold);
+            transform: translateY(-8px);
+            background: #1E3050;
+        }
+
+        .card-icon { font-size: 3.5rem; margin-bottom: 15px; }
+        .card-title { font-weight: 700; color: var(--gold-light); font-size: 1.2rem; }
+        .card-text { display: none; font-size: 1rem; color: var(--white); margin-top: 10px; }
+
+        .card.active .card-icon, .card.active .card-title { display: none; }
+        .card.active .card-text { display: block; }
+        .card.active { background: var(--navy-light); border-color: var(--gold); }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 20px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        @media (max-width: 768px) {
+            .main-title { font-size: 2rem; }
+            .start-btn { width: 100%; }
         }
     </style>
 </head>
 <body>
 
-    <section id="hero">
-        <div style="font-weight: 700; color: var(--gold); margin-bottom: 10px;">مدرسة مدينة الشامخة</div>
-        <h1 style="font-size: 3.5rem; margin-bottom: 10px;">🛡️ فيروسات الحاسوب</h1>
-        <p style="font-size: 1.3rem; opacity: 0.8; margin-bottom: 30px;">تحدي البطاقات التفاعلية للحماية الرقمية</p>
-        <button class="btn-start" onclick="launchGame()">ابدأ التحدي الآن</button>
-        <div style="margin-top: 40px; font-size: 0.8rem; opacity: 0.5;">تحيات فريق الدعم الفني بمدرسة مدينة الشامخة</div>
+    <section id="hero-section">
+        <div class="school-name">مدرسة مدينة الشامخة</div>
+        <h1 class="main-title">حماية الحاسوب من <span>الفيروسات</span></h1>
+        <p style="margin-bottom: 35px; opacity: 0.9;">تعلم كيف تحمي بياناتك وجهازك في خطوات بسيطة وتفاعلية</p>
+        <button class="start-btn" onclick="showApp()">ابدأ التحدي الآن</button>
     </section>
 
-    <main id="app-container">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
+    <main id="main-app">
+        <div class="header-area">
             <h2>البطاقات التعليمية</h2>
-            <div id="stats">التقدم: <span id="learned-count">0</span> / 6</div>
+            <div id="status">التقدم: <span id="count">0</span> / 6</div>
         </div>
-        
-        <div class="progress-bar">
+
+        <div class="progress-container">
             <div id="progress-fill"></div>
         </div>
 
-        <div class="cards-grid" id="game-grid">
+        <div class="cards-grid" id="container">
             </div>
 
         <footer>
@@ -138,54 +181,56 @@
     </main>
 
     <script>
-        const GAME_DATA = [
-            { icon: '🔑', title: 'كلمات المرور', info: 'استخدم كلمات مرور قوية (أرقام، رموز، حروف) ولا تشاركها مع أحد.' },
-            { icon: '📡', title: 'شبكات الواي فاي', info: 'تجنب الاتصال بشبكات الواي فاي العامة المفتوحة عند إجراء المعاملات البنكية.' },
-            { icon: '💾', title: 'النسخ الاحتياطي', info: 'احتفظ دائماً بنسخة من ملفاتك المهمة في وحدة تخزين خارجية أو سحابة إلكترونية.' },
-            { icon: '🚫', title: 'الروابط المجهولة', info: 'لا تضغط على أي رابط يصلك في رسالة من مصدر مجهول، فقد يكون فخاً للاختراق.' },
-            { icon: '🆙', title: 'تحديث النظام', info: 'احرص على تحديث برامجك ونظام التشغيل باستمرار لسد الثغرات الأمنية.' },
-            { icon: '🛡️', title: 'برامج الحماية', info: 'تأكد من وجود برنامج مكافح فيروسات (Antivirus) نشط ومحدث على جهازك.' }
+        const DATA = [
+            { icon: '🛡️', title: 'مكافح الفيروسات', info: 'قم بتثبيت برنامج حماية قوي وموثوق وتأكد من تحديثه بشكل دوري لفحص الملفات.' },
+            { icon: '🔑', title: 'كلمات المرور', info: 'استخدم كلمات مرور معقدة تحتوي على رموز وأرقام، وقم بتفعيل خاصية التحقق الثنائي.' },
+            { icon: '📧', title: 'البريد الإلكتروني', info: 'لا تفتح الروابط أو المرفقات من مرسلين مجهولين، فقد تكون وسيلة لنشر البرمجيات الخبيثة.' },
+            { icon: '💾', title: 'النسخ الاحتياطي', info: 'احتفظ بنسخة من ملفاتك الهامة على قرص صلب خارجي أو سحابة إلكترونية لتجنب فقدانها.' },
+            { icon: '🌐', title: 'التصفح الآمن', info: 'تأكد من وجود رمز القفل (HTTPS) في شريط عنوان المتصفح قبل إدخال بياناتك الخاصة.' },
+            { icon: '🔌', title: 'الأجهزة الخارجية', info: 'قم بفحص أي وحدة تخزين (USB) قبل فتحها على جهازك للتأكد من خلوها من الفيروسات.' }
         ];
 
-        let learnedIds = new Set();
+        let seen = new Set();
 
-        function launchGame() {
-            // إخفاء الترحيب وإظهار اللعبة
-            document.getElementById('hero').style.display = 'none';
-            document.getElementById('app-container').style.display = 'block';
-            
-            const grid = document.getElementById('game-grid');
-            grid.innerHTML = GAME_DATA.map((item, index) => `
-                <div class="card" id="card-${index}" onclick="handleCardClick(${index})">
+        function showApp() {
+            document.getElementById('hero-section').style.display = 'none';
+            document.getElementById('main-app').style.display = 'block';
+            render();
+        }
+
+        function render() {
+            const grid = document.getElementById('container');
+            grid.innerHTML = DATA.map((item, index) => `
+                <div class="card" id="c-${index}" onclick="reveal(${index})">
                     <div class="card-icon">${item.icon}</div>
                     <div class="card-title">${item.title}</div>
-                    <div class="card-info">${item.info}</div>
+                    <div class="card-text">${item.info}</div>
                 </div>
             `).join('');
         }
 
-        function handleCardClick(index) {
-            const card = document.getElementById(`card-${index}`);
-            card.classList.toggle('flipped');
+        function reveal(idx) {
+            const card = document.getElementById(`c-${idx}`);
+            card.classList.toggle('active');
             
-            if (!learnedIds.has(index)) {
-                learnedIds.add(index);
-                updateProgress();
+            if (!seen.has(idx)) {
+                seen.add(idx);
+                update();
             }
         }
 
-        function updateProgress() {
-            const total = GAME_DATA.length;
-            const current = learnedIds.size;
-            const percentage = (current / total) * 100;
+        function update() {
+            const current = seen.size;
+            const total = DATA.length;
+            const percent = (current / total) * 100;
             
-            document.getElementById('learned-count').innerText = current;
-            document.getElementById('progress-fill').style.width = percentage + '%';
+            document.getElementById('count').innerText = current;
+            document.getElementById('progress-fill').style.width = percent + '%';
 
             if (current === total) {
                 setTimeout(() => {
-                    alert('أحسنتِ يا بطلة! لقد أتممتِ جميع مهارات الحماية الرقمية بنجاح.');
-                }, 500);
+                    alert('🎉 رائع! لقد تعلمت جميع طرق الحماية الأساسية.');
+                }, 600);
             }
         }
     </script>
