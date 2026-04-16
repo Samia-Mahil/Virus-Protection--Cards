@@ -1,165 +1,193 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>حماية الحاسوب من الفيروسات | مدرسة مدينة الشامخة</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --gold: #C9A84C;
-    --navy: #0D1B2A;
-    --white: #F8F6F0;
-  }
-  body {
-    font-family: 'Cairo', sans-serif;
-    background: var(--navy);
-    color: var(--white);
-    margin: 0;
-    overflow-x: hidden;
-    direction: rtl;
-  }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حماية الحاسوب | مدرسة مدينة الشامخة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #C9A84C;
+            --navy: #0D1B2A;
+            --white: #F8F6F0;
+        }
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--navy);
+            color: var(--white);
+            margin: 0;
+            overflow-x: hidden;
+        }
 
-  /* الشاشة الافتتاحية */
-  #hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    text-align: center;
-    padding: 20px;
-    background: radial-gradient(circle at center, #152238 0%, #0D1B2A 100%);
-  }
+        /* شاشة الترحيب */
+        #hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            background: radial-gradient(circle at center, #152238 0%, #0D1B2A 100%);
+            padding: 20px;
+        }
 
-  /* شاشة اللعبة (مخفية في البداية) */
-  #app {
-    display: none; 
-    padding: 40px 20px;
-    max-width: 1000px;
-    margin: 0 auto;
-  }
+        /* شاشة اللعبة - مخفية في البداية */
+        #app-container {
+            display: none;
+            padding: 40px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
 
-  .btn-start {
-    background: var(--gold);
-    color: var(--navy);
-    padding: 18px 50px;
-    border-radius: 50px;
-    font-size: 1.5rem;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-    transition: 0.3s;
-  }
-  .btn-start:hover { transform: scale(1.05); background: #e8c97a; }
+        .btn-start {
+            background: linear-gradient(135deg, var(--gold), #8B6914);
+            color: white;
+            padding: 20px 60px;
+            border-radius: 50px;
+            font-size: 1.5rem;
+            font-weight: 900;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: 0.3s;
+            margin-top: 20px;
+        }
+        .btn-start:hover { transform: scale(1.05); box-shadow: 0 15px 40px rgba(201,168,76,0.4); }
 
-  .cards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
-    margin-top: 30px;
-  }
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
 
-  .card {
-    background: #152238;
-    border: 1px solid var(--gold);
-    border-radius: 15px;
-    padding: 30px;
-    text-align: center;
-    cursor: pointer;
-    transition: 0.4s;
-    min-height: 200px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  .card:hover { transform: translateY(-10px); background: #1E3050; }
+        .card {
+            background: #152238;
+            border: 2px solid var(--gold);
+            border-radius: 20px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.5s;
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .card:hover { transform: translateY(-10px); background: #1E3050; }
 
-  .card-icon { font-size: 3rem; margin-bottom: 15px; }
-  .card-title { font-weight: bold; color: var(--gold); font-size: 1.2rem; }
-  .card-desc { margin-top: 10px; font-size: 1rem; line-height: 1.6; display: none; }
-  
-  .card.active .card-desc { display: block; }
-  .card.active .card-title { font-size: 1.4rem; }
-  .card.active .card-icon { display: none; }
+        .card-icon { font-size: 4rem; margin-bottom: 20px; }
+        .card-title { font-weight: 900; color: var(--gold); font-size: 1.4rem; }
+        .card-info { margin-top: 15px; font-size: 1.1rem; line-height: 1.6; display: none; }
 
-  .progress-container { margin-bottom: 30px; text-align: center; }
-  .progress-bar { background: rgba(255,255,255,0.1); height: 10px; border-radius: 5px; margin-top: 10px; }
-  .progress-fill { background: var(--gold); height: 100%; width: 0%; transition: 0.5s; border-radius: 5px; }
-</style>
+        .card.flipped .card-info { display: block; }
+        .card.flipped .card-icon, .card.flipped .card-title { display: none; }
+
+        footer {
+            margin-top: 50px;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid rgba(201,168,76,0.2);
+            font-size: 0.9rem;
+            color: var(--gold);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        #progress-fill {
+            height: 100%;
+            background: var(--gold);
+            width: 0%;
+            transition: 0.5s;
+        }
+    </style>
 </head>
 <body>
 
-  <section id="hero">
-    <h1 style="font-size: 3rem; margin-bottom: 10px;">🛡️ درع الشامخة الرقمي</h1>
-    <p style="font-size: 1.2rem; margin-bottom: 30px; opacity: 0.8;">تعلم أساسيات حماية الحاسوب بطريقة تفاعلية</p>
-    <button class="btn-start" onclick="startApp()">ابدأ اللعب الآن</button>
-  </section>
+    <section id="hero">
+        <div style="font-weight: 700; color: var(--gold); margin-bottom: 10px;">مدرسة مدينة الشامخة</div>
+        <h1 style="font-size: 3.5rem; margin-bottom: 10px;">🛡️ فيروسات الحاسوب</h1>
+        <p style="font-size: 1.3rem; opacity: 0.8; margin-bottom: 30px;">تحدي البطاقات التفاعلية للحماية الرقمية</p>
+        <button class="btn-start" onclick="launchGame()">ابدأ التحدي الآن</button>
+        <div style="margin-top: 40px; font-size: 0.8rem; opacity: 0.5;">تحيات فريق الدعم الفني بمدرسة مدينة الشامخة</div>
+    </section>
 
-  <main id="app">
-    <div class="progress-container">
-      <h3>التقدم: <span id="count">0</span> / 6</h3>
-      <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
-    </div>
+    <main id="app-container">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>البطاقات التعليمية</h2>
+            <div id="stats">التقدم: <span id="learned-count">0</span> / 6</div>
+        </div>
+        
+        <div class="progress-bar">
+            <div id="progress-fill"></div>
+        </div>
 
-    <div class="cards-grid" id="cards-container"></div>
-  </main>
+        <div class="cards-grid" id="game-grid">
+            </div>
 
-<script>
-  const CARDS_DATA = [
-    { icon: '🔒', title: 'كلمات المرور', desc: 'اجعلها طويلة، معقدة، ولا تشاركها مع أحد أبداً!' },
-    { icon: '🔍', title: 'التحديثات', desc: 'تحديث نظام التشغيل والبرامج يغلق الثغرات التي يستغلها المخترقون.' },
-    { icon: '🚫', title: 'الروابط المشبوهة', desc: 'لا تضغط على رابط يصلك من شخص مجهول، فقد يكون فخاً.' },
-    { icon: '💾', title: 'النسخ الاحتياطي', desc: 'احتفظ بنسخة من ملفاتك الهامة بعيداً عن جهازك الأساسي.' },
-    { icon: '🛡️', title: 'مكافح الفيروسات', desc: 'تأكد من وجود برنامج حماية نشط ومحدث دائماً على جهازك.' },
-    { icon: '📲', title: 'التحقق الثنائي', desc: 'استخدم بصمة الإصبع أو رمز الهاتف كطبقة حماية إضافية.' }
-  ];
+        <footer>
+            مع تحيات فريق الدعم الفني بمدرسة مدينة الشامخة
+        </footer>
+    </main>
 
-  let learned = new Set();
+    <script>
+        const GAME_DATA = [
+            { icon: '🔑', title: 'كلمات المرور', info: 'استخدم كلمات مرور قوية (أرقام، رموز، حروف) ولا تشاركها مع أحد.' },
+            { icon: '📡', title: 'شبكات الواي فاي', info: 'تجنب الاتصال بشبكات الواي فاي العامة المفتوحة عند إجراء المعاملات البنكية.' },
+            { icon: '💾', title: 'النسخ الاحتياطي', info: 'احتفظ دائماً بنسخة من ملفاتك المهمة في وحدة تخزين خارجية أو سحابة إلكترونية.' },
+            { icon: '🚫', title: 'الروابط المجهولة', info: 'لا تضغط على أي رابط يصلك في رسالة من مصدر مجهول، فقد يكون فخاً للاختراق.' },
+            { icon: '🆙', title: 'تحديث النظام', info: 'احرص على تحديث برامجك ونظام التشغيل باستمرار لسد الثغرات الأمنية.' },
+            { icon: '🛡️', title: 'برامج الحماية', info: 'تأكد من وجود برنامج مكافح فيروسات (Antivirus) نشط ومحدث على جهازك.' }
+        ];
 
-  function startApp() {
-    // إخفاء شاشة البداية
-    document.getElementById('hero').style.display = 'none';
-    // إظهار شاشة اللعبة
-    document.getElementById('app').style.display = 'block';
-    renderCards();
-  }
+        let learnedIds = new Set();
 
-  function renderCards() {
-    const container = document.getElementById('cards-container');
-    container.innerHTML = CARDS_DATA.map((card, index) => `
-      <div class="card" id="card-${index}" onclick="toggleCard(${index})">
-        <div class="card-icon">${card.icon}</div>
-        <div class="card-title">${card.title}</div>
-        <div class="card-desc">${card.desc}</div>
-      </div>
-    `).join('');
-  }
+        function launchGame() {
+            // إخفاء الترحيب وإظهار اللعبة
+            document.getElementById('hero').style.display = 'none';
+            document.getElementById('app-container').style.display = 'block';
+            
+            const grid = document.getElementById('game-grid');
+            grid.innerHTML = GAME_DATA.map((item, index) => `
+                <div class="card" id="card-${index}" onclick="handleCardClick(${index})">
+                    <div class="card-icon">${item.icon}</div>
+                    <div class="card-title">${item.title}</div>
+                    <div class="card-info">${item.info}</div>
+                </div>
+            `).join('');
+        }
 
-  function toggleCard(index) {
-    const cardElement = document.getElementById(`card-${index}`);
-    cardElement.classList.toggle('active');
-    
-    if (!learned.has(index)) {
-      learned.add(index);
-      updateProgress();
-    }
-  }
+        function handleCardClick(index) {
+            const card = document.getElementById(`card-${index}`);
+            card.classList.toggle('flipped');
+            
+            if (!learnedIds.has(index)) {
+                learnedIds.add(index);
+                updateProgress();
+            }
+        }
 
-  function updateProgress() {
-    const total = CARDS_DATA.length;
-    const current = learned.size;
-    const percent = (current / total) * 100;
-    
-    document.getElementById('count').textContent = current;
-    document.getElementById('progress-fill').style.width = percent + '%';
+        function updateProgress() {
+            const total = GAME_DATA.length;
+            const current = learnedIds.size;
+            const percentage = (current / total) * 100;
+            
+            document.getElementById('learned-count').innerText = current;
+            document.getElementById('progress-fill').style.width = percentage + '%';
 
-    if (current === total) {
-      setTimeout(() => alert('🎉 مبروك! لقد تعلمت كل مهارات الحماية!'), 500);
-    }
-  }
-</script>
-
+            if (current === total) {
+                setTimeout(() => {
+                    alert('أحسنتِ يا بطلة! لقد أتممتِ جميع مهارات الحماية الرقمية بنجاح.');
+                }, 500);
+            }
+        }
+    </script>
 </body>
 </html>
